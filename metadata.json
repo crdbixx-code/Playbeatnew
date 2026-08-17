@@ -1,0 +1,6 @@
+{
+  "name": "PlayBeat Digital",
+  "description": "Enterprise digital products, gaming keys, software subscriptions, and online services marketplace platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
