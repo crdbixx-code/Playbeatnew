@@ -26,8 +26,14 @@ import {
   Zap,
   Sliders,
   Sparkles,
+  Eye,
+  Lock,
+  Layout,
+  Boxes,
 } from 'lucide-react';
 import { Product, Order, InventoryKey, Coupon, Ticket, Review, AuditLog } from '../types';
+import { WebsiteBuilderTool } from '../components/admin/WebsiteBuilderTool';
+import { ProductManagementTool } from '../components/admin/ProductManagementTool';
 
 export const AdminDashboardView: React.FC = () => {
   const {
@@ -40,14 +46,66 @@ export const AdminDashboardView: React.FC = () => {
     auditLogs,
     settings,
     currentUser,
+    setCurrentUser,
+    setActiveView,
     refreshData,
     showToast,
     switchRole,
   } = useApp();
 
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState<boolean>(() => {
+    return (
+      sessionStorage.getItem('pb_admin_auth') === 'playbeat1122' ||
+      currentUser?.role === 'super_admin' ||
+      currentUser?.role === 'admin'
+    );
+  });
+  const [adminPasswordInput, setAdminPasswordInput] = useState('playbeat1122');
+  const [showAdminPass, setShowAdminPass] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const [adminTab, setAdminTab] = useState<
-    'analytics' | 'products' | 'keys' | 'orders' | 'subscriptions' | 'reviews' | 'tickets' | 'coupons' | 'cms' | 'audit'
+    'analytics' | 'builder' | 'product_manager' | 'products' | 'keys' | 'orders' | 'subscriptions' | 'reviews' | 'tickets' | 'coupons' | 'cms' | 'audit'
   >('analytics');
+
+  const handleVerifyAdminPassword = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsVerifying(true);
+    setAuthError('');
+
+    try {
+      const res = await fetch('/api/auth/verify-admin-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: adminPasswordInput.trim() }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        sessionStorage.setItem('pb_admin_auth', 'playbeat1122');
+        setIsAdminUnlocked(true);
+        if (data.user) {
+          setCurrentUser(data.user);
+        }
+        showToast('Admin Panel Unlocked (playbeat1122) ⚡', 'success');
+        await refreshData();
+      } else {
+        setAuthError(data.message || 'Incorrect password. (Password is playbeat1122)');
+        showToast('Access denied', 'error');
+      }
+    } catch {
+      setAuthError('Connection error. Please retry.');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleLockAdmin = () => {
+    sessionStorage.removeItem('pb_admin_auth');
+    setIsAdminUnlocked(false);
+    showToast('Admin Panel locked.', 'info');
+  };
 
   // Key Vault Bulk Upload modal state
   const [isBulkKeyModalOpen, setIsBulkKeyModalOpen] = useState(false);
@@ -257,6 +315,97 @@ export const AdminDashboardView: React.FC = () => {
     }
   };
 
+  if (!isAdminUnlocked) {
+    return (
+      <div className="min-h-[calc(100vh-8rem)] w-full flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
+        <div className="w-full max-w-md bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 rounded-3xl p-8 shadow-2xl shadow-black/80 space-y-6 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <ShieldCheck className="w-8 h-8 text-white" />
+          </div>
+
+          <div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-cyan-400 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800">
+              playbeat.digital/adminpanel
+            </span>
+            <h2 className="text-2xl font-black text-white mt-3">Admin Panel Access</h2>
+            <p className="text-xs text-slate-400 mt-1">
+              This area is password protected. Enter the administrator key to manage products, keys, and orders.
+            </p>
+          </div>
+
+          <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-left text-xs space-y-1">
+            <div className="flex items-center justify-between text-slate-400">
+              <span>Required Password:</span>
+              <span className="font-mono text-cyan-300 font-bold">playbeat1122</span>
+            </div>
+            <div className="text-[11px] text-slate-500">
+              Direct access url: <span className="font-mono text-slate-400">/adminpanel</span>
+            </div>
+          </div>
+
+          {authError && (
+            <div className="p-3 bg-rose-950/60 border border-rose-600/50 rounded-xl text-rose-300 text-xs font-semibold">
+              {authError}
+            </div>
+          )}
+
+          <form onSubmit={handleVerifyAdminPassword} className="space-y-4 text-left">
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                Admin Panel Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showAdminPass ? 'text' : 'password'}
+                  value={adminPasswordInput}
+                  onChange={e => setAdminPasswordInput(e.target.value)}
+                  placeholder="Enter playbeat1122"
+                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 pr-10 font-mono"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowAdminPass(!showAdminPass)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                >
+                  {showAdminPass ? <XCircle className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isVerifying}
+              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
+            >
+              {isVerifying ? 'Verifying Credentials...' : 'Unlock Admin Panel (playbeat1122)'}
+            </button>
+          </form>
+
+          <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+            <button
+              type="button"
+              onClick={() => setActiveView('shop')}
+              className="text-slate-400 hover:text-white transition-colors"
+            >
+              ← Back to Storefront (/storefront)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAdminPasswordInput('playbeat1122');
+                setTimeout(() => handleVerifyAdminPassword(), 50);
+              }}
+              className="text-cyan-400 hover:text-cyan-300 font-semibold"
+            >
+              Auto-fill & Unlock
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Admin Bar */}
@@ -270,7 +419,7 @@ export const AdminDashboardView: React.FC = () => {
               <Activity className="w-3.5 h-3.5 animate-pulse" /> Cluster Online
             </span>
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 font-mono text-[10px]">
-              playbeat.digital/wp-admin (playbeat123)
+              playbeat.digital/adminpanel (Password: playbeat1122)
             </span>
           </div>
           <h1 className="text-2xl font-black text-white mt-1">PlayBeat Digital Admin Portal</h1>
@@ -278,6 +427,13 @@ export const AdminDashboardView: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            onClick={() => setActiveView('shop')}
+            className="px-3.5 py-2 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5 transition-all"
+          >
+            <ShoppingBag className="w-4 h-4" /> Storefront (/storefront)
+          </button>
+
           <button
             onClick={() => {
               setEditingProductId(null);
@@ -314,10 +470,10 @@ export const AdminDashboardView: React.FC = () => {
           </button>
 
           <button
-            onClick={() => switchRole('customer')}
+            onClick={handleLockAdmin}
             className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition-colors"
           >
-            Switch to Customer View
+            Lock Admin
           </button>
         </div>
       </div>
@@ -373,6 +529,8 @@ export const AdminDashboardView: React.FC = () => {
       <div className="flex items-center gap-1.5 border-b border-slate-800 overflow-x-auto text-xs font-semibold pb-1">
         {[
           { id: 'analytics', label: 'Analytics', icon: TrendingUp },
+          { id: 'builder', label: 'Website Builder', icon: Layout, highlight: true },
+          { id: 'product_manager', label: 'Product Manager Tool', icon: Boxes, highlight: true },
           { id: 'products', label: `Catalog (${products.length})`, icon: Package },
           { id: 'keys', label: `Key Vault (${inventoryList.length})`, icon: Key },
           { id: 'orders', label: `Orders (${orders.length})`, icon: ShoppingBag },
@@ -391,6 +549,8 @@ export const AdminDashboardView: React.FC = () => {
               className={`flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl transition-all shrink-0 ${
                 adminTab === tab.id
                   ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
+                  : tab.highlight
+                  ? 'bg-purple-950/70 border border-purple-800/60 text-purple-300 hover:bg-purple-900/80 hover:text-white'
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
               }`}
             >
@@ -400,6 +560,12 @@ export const AdminDashboardView: React.FC = () => {
           );
         })}
       </div>
+
+      {/* 0. WEBSITE BUILDER TOOL TAB */}
+      {adminTab === 'builder' && <WebsiteBuilderTool />}
+
+      {/* 0.1 ADVANCED PRODUCT MANAGEMENT TOOL TAB */}
+      {adminTab === 'product_manager' && <ProductManagementTool />}
 
       {/* 1. ANALYTICS & INSIGHTS TAB */}
       {adminTab === 'analytics' && (

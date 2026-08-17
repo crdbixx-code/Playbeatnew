@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
   User,
   Product,
+  ProductVariant,
   CartItem,
   Coupon,
   Order,

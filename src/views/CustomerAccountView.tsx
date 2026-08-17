@@ -36,9 +36,52 @@ export const CustomerAccountView: React.FC = () => {
     switchRole,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'vault' | 'orders' | 'subscriptions' | 'wishlist' | 'tickets' | 'security'>('vault');
+  const [activeTab, setActiveTab] = useState<'vault' | 'orders' | 'subscriptions' | 'wishlist' | 'tickets' | 'security' | 'advanced'>('vault');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [unmaskedKeys, setUnmaskedKeys] = useState<Record<string, boolean>>({});
+
+  // Advanced Settings State (playbeat.digital / playbeat123)
+  const [isAdvancedUnlocked, setIsAdvancedUnlocked] = useState(false);
+  const [advancedPassword, setAdvancedPassword] = useState('playbeat123');
+  const [showAdvancedPass, setShowAdvancedPass] = useState(false);
+  const [advancedError, setAdvancedError] = useState('');
+  const [isVerifyingAdvanced, setIsVerifyingAdvanced] = useState(false);
+  const [advancedConfig, setAdvancedConfig] = useState<{
+    organization: string;
+    domain: string;
+    apiEndpoint: string;
+    publicKey: string;
+    vaultToken: string;
+    webhookUrl: string;
+    hsmEncryption: string;
+    cloudBackupSync: string;
+  } | null>(null);
+
+  const handleVerifyAdvancedPassword = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsVerifyingAdvanced(true);
+    setAdvancedError('');
+    try {
+      const res = await fetch('/api/auth/verify-advanced-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: advancedPassword.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAdvancedUnlocked(true);
+        setAdvancedConfig(data.config);
+        showToast('playbeat.digital Advanced Settings Unlocked (playbeat123) ⚡', 'success');
+      } else {
+        setAdvancedError(data.message || 'Incorrect password. (Password is playbeat123)');
+        showToast('Verification failed', 'error');
+      }
+    } catch {
+      setAdvancedError('Network error. Please try again.');
+    } finally {
+      setIsVerifyingAdvanced(false);
+    }
+  };
 
   // Ticket creation inside portal
   const [isNewTicketOpen, setIsNewTicketOpen] = useState(false);
@@ -259,6 +302,21 @@ export const CustomerAccountView: React.FC = () => {
         >
           <Lock className="w-4 h-4" />
           Security & 2FA
+        </button>
+
+        <button
+          onClick={() => setActiveTab('advanced')}
+          className={`flex items-center gap-2 py-3 px-4 rounded-t-xl transition-colors shrink-0 ${
+            activeTab === 'advanced'
+              ? 'bg-slate-900 text-cyan-400 border-t-2 border-cyan-400'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <SlidersHorizontal className="w-4 h-4 text-cyan-400" />
+          <span>Advanced Settings (playbeat.digital)</span>
+          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+            playbeat123
+          </span>
         </button>
       </div>
 
@@ -676,6 +734,215 @@ export const CustomerAccountView: React.FC = () => {
               Update Password
             </button>
           </div>
+        </div>
+      )}
+
+      {/* TAB 7: ADVANCED SETTINGS (playbeat.digital - Password: playbeat123) */}
+      {activeTab === 'advanced' && (
+        <div className="space-y-6 max-w-4xl">
+          {!isAdvancedUnlocked ? (
+            <div className="p-8 bg-slate-900 border border-slate-800 rounded-3xl space-y-6 max-w-md mx-auto text-center shadow-2xl">
+              <div className="w-14 h-14 rounded-2xl bg-cyan-950 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400">
+                <Lock className="w-7 h-7" />
+              </div>
+
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-bold px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800">
+                  playbeat.digital Core
+                </span>
+                <h3 className="text-xl font-bold text-white mt-2.5">Advanced Settings Protection</h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Access infrastructure endpoints, webhook routing, and API credentials for playbeat.digital.
+                </p>
+              </div>
+
+              <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-left">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Required Password:</span>
+                  <span className="font-mono text-cyan-300 font-bold">playbeat123</span>
+                </div>
+              </div>
+
+              {advancedError && (
+                <div className="p-3 bg-rose-950/60 border border-rose-600/50 rounded-xl text-rose-300 text-xs font-semibold">
+                  {advancedError}
+                </div>
+              )}
+
+              <form onSubmit={handleVerifyAdvancedPassword} className="space-y-4 text-left">
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    Advanced Settings Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showAdvancedPass ? 'text' : 'password'}
+                      value={advancedPassword}
+                      onChange={e => setAdvancedPassword(e.target.value)}
+                      placeholder="Enter playbeat123"
+                      className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400 pr-10 font-mono"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowAdvancedPass(!showAdvancedPass)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                    >
+                      {showAdvancedPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isVerifyingAdvanced}
+                  className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider shadow-lg transition-all"
+                >
+                  {isVerifyingAdvanced ? 'Verifying...' : 'Unlock Advanced Settings (playbeat123)'}
+                </button>
+              </form>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setAdvancedPassword('playbeat123');
+                  setTimeout(() => handleVerifyAdvancedPassword(), 50);
+                }}
+                className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold underline"
+              >
+                Auto-fill playbeat123 & Unlock
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Unlocked Header */}
+              <div className="p-6 bg-slate-900 border border-slate-800 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+                      Unlocked & Verified
+                    </span>
+                    <span className="text-xs text-cyan-400 font-mono">playbeat.digital</span>
+                  </div>
+                  <h2 className="text-xl font-bold text-white mt-1">PlayBeat Digital Advanced Dashboard</h2>
+                  <p className="text-xs text-slate-400">
+                    Production domain configuration, automated fulfillment pipelines, and webhook indexers.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setIsAdvancedUnlocked(false);
+                      showToast('Advanced Settings locked.', 'info');
+                    }}
+                    className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700"
+                  >
+                    Lock Settings
+                  </button>
+                  <button
+                    onClick={() => setActiveView('admin')}
+                    className="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold rounded-xl"
+                  >
+                    Admin Panel (/adminpanel)
+                  </button>
+                </div>
+              </div>
+
+              {/* Grid of System Modules */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Module 1: Production Domain & Routing */}
+                <div className="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-4">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <ExternalLink className="w-4 h-4 text-cyan-400" /> Domain & Routing Indexing
+                  </h4>
+                  <div className="space-y-2.5 text-xs">
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Primary Domain:</span>
+                      <span className="text-emerald-400 font-mono font-bold">https://playbeat.digital</span>
+                    </div>
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Storefront Route:</span>
+                      <span className="text-cyan-300 font-mono">/storefront</span>
+                    </div>
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Admin Panel Route:</span>
+                      <span className="text-indigo-300 font-mono">/adminpanel (Pass: playbeat1122)</span>
+                    </div>
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Advanced Pass:</span>
+                      <span className="text-amber-300 font-mono font-bold">playbeat123</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Module 2: Webhooks & Instant Dispatch */}
+                <div className="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-4">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-amber-400" /> Automated Key Dispatch Engine
+                  </h4>
+                  <div className="space-y-2.5 text-xs">
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Fulfillment Latency:</span>
+                      <span className="text-emerald-400 font-mono font-bold">&lt; 3.2 seconds</span>
+                    </div>
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">HSM Hardware Vault:</span>
+                      <span className="text-slate-200 font-mono">AES-256 Sealed</span>
+                    </div>
+                    <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                      <span className="text-slate-400">Webhook URL:</span>
+                      <span className="text-cyan-300 font-mono truncate max-w-[180px]">
+                        https://playbeat.digital/api/webhooks
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => showToast('Webhook test event sent to playbeat.digital ⚡', 'success')}
+                      className="w-full py-2 bg-blue-600/30 hover:bg-blue-600/50 text-cyan-300 font-semibold rounded-xl border border-blue-500/40 transition-colors"
+                    >
+                      Send Test Webhook Ping
+                    </button>
+                  </div>
+                </div>
+
+                {/* Module 3: Master API Keys */}
+                <div className="md:col-span-2 p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-4">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" /> Production API Credentials
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Public Key:</span>
+                        <button
+                          onClick={() => handleCopy('pk_live_pb_998124_digital')}
+                          className="text-cyan-400 hover:text-cyan-300"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                      <div className="font-mono text-white text-xs select-all">pk_live_pb_998124_digital</div>
+                    </div>
+
+                    <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Master Vault Secret Token:</span>
+                        <button
+                          onClick={() => handleCopy('sk_live_pb_vault_7721884_sec_key')}
+                          className="text-cyan-400 hover:text-cyan-300"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                      <div className="font-mono text-amber-300 text-xs select-all">
+                        sk_live_pb_vault_7721884_sec_key
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

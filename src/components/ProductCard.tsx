@@ -65,10 +65,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-md bg-emerald-500 text-slate-950 shadow-md font-mono">
               FREE TOOL
             </span>
-          ) : product.profitMarginPercent ? (
-            <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-md bg-cyan-950/90 text-cyan-300 border border-cyan-500/50 shadow-md font-mono flex items-center gap-0.5">
-              <Zap className="w-2.5 h-2.5 text-cyan-400" /> +{product.profitMarginPercent}% Margin
-            </span>
           ) : discountPercent > 0 ? (
             <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-md bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-md font-mono">
               -{discountPercent}% OFF
@@ -200,8 +196,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               )}
             </div>
             <span className="text-[10px] text-slate-500 font-mono block">
-              {currentCostPKR ? (
-                <span className="text-cyan-400 font-medium">Cost: ₨ {currentCostPKR.toLocaleString()} (+10%)</span>
+              {currentPricePKR ? (
+                <span className="text-emerald-400 font-medium">Verified Stock • Direct Delivery</span>
               ) : isFree ? (
                 'Open Source / Instant'
               ) : (selectedVariant ? selectedVariant.stock : product.stock) > 0 ? (

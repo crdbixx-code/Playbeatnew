@@ -1,6 +1,6 @@
 {
-  "name": "PlayBeat Digital",
-  "description": "Enterprise digital products, gaming keys, software subscriptions, and online services marketplace platform.",
+  "name": "PlayBeat Digital Enterprise",
+  "description": "Premium, modern, high-converting digital solutions and enterprise technology platform with White, Silver, Yellow, and Navy Blue design.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { ProductCard } from '../components/ProductCard';
-import { PlaybeatSequencer } from '../components/PlaybeatSequencer';
 import {
   Zap,
   ShieldCheck,
@@ -38,6 +37,8 @@ import {
   SlidersHorizontal,
   Layers,
   Music,
+  Briefcase,
+  Server,
 } from 'lucide-react';
 
 export const HomeView: React.FC = () => {
@@ -174,21 +175,6 @@ export const HomeView: React.FC = () => {
     currentPage * itemsPerPage
   );
 
-  const platforms = [
-    { name: 'Steam', badge: 'PC Keys' },
-    { name: 'Microsoft', badge: 'Windows & Office' },
-    { name: 'OpenAI', badge: 'ChatGPT & API' },
-    { name: 'Adobe', badge: 'Creative Cloud' },
-    { name: 'PlayStation', badge: 'PSN & Plus' },
-    { name: 'Xbox', badge: 'Game Pass' },
-    { name: 'Spotify', badge: 'Premium Audio' },
-    { name: 'Apple', badge: 'iTunes & Gift' },
-    { name: 'Google Play', badge: 'Wallet Credits' },
-    { name: 'NordVPN', badge: 'Security Suite' },
-    { name: 'JetBrains', badge: 'Developer IDEs' },
-    { name: 'Figma', badge: 'UI/UX Design' },
-  ];
-
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newsletterEmail) {
@@ -212,7 +198,7 @@ export const HomeView: React.FC = () => {
             <div className="lg:col-span-8 space-y-6 text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#232131] border border-[#FF6B6B]/40 text-[#FF6B6B] text-xs font-black shadow-lg uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-[#FF6B6B] animate-ping" />
-                <span>The Gateway to Digital Heaven</span>
+                <span>PLAYBEAT DIGITAL • playbeat.digital</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08]">
@@ -223,7 +209,7 @@ export const HomeView: React.FC = () => {
               </h1>
 
               <p className="text-sm sm:text-base text-[#B8B5C7] max-w-2xl leading-relaxed font-normal">
-                Every streaming service, gaming pass, AI tool & cloud plan — from every platform, for every region. One store. Every service. No borders. Verified, region-unlocked, and live in seconds.
+                Every streaming service, gaming pass, AI tool, smart projector & cloud plan — verified, genuine licenses, and instant digital delivery.
               </p>
 
               {/* Action Buttons */}
@@ -252,28 +238,36 @@ export const HomeView: React.FC = () => {
                   onClick={() => setActiveView('node-studio')}
                   className="px-4 py-3.5 bg-[#E84A8C]/20 hover:bg-[#E84A8C]/30 border border-[#E84A8C]/40 text-[#E84A8C] font-semibold text-sm rounded-xl flex items-center gap-2 transition-colors"
                 >
-                  <Radio className="w-4 h-4 text-[#E84A8C] animate-pulse" />
-                  PlayBeat 4 Drum Studio
+                  <Radio className="w-4 h-4 text-[#E84A8C]" />
+                  PlayBeat Studio
                 </button>
               </div>
 
-              {/* Stats Badges */}
+              {/* Value Highlights */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#4A4666]/60">
                 <div className="flex flex-col">
-                  <span className="text-xl sm:text-2xl font-black text-white font-mono">500+</span>
-                  <span className="text-xs text-[#B8B5C7] font-semibold">Subscriptions</span>
+                  <span className="text-xl sm:text-2xl font-black text-white font-mono flex items-center gap-1">
+                    <ShieldCheck className="w-5 h-5 text-emerald-400" /> Genuine
+                  </span>
+                  <span className="text-xs text-[#B8B5C7] font-semibold">Publisher Licenses</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl sm:text-2xl font-black text-[#4ECDC4] font-mono">50+</span>
-                  <span className="text-xs text-[#B8B5C7] font-semibold">Platforms</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#4ECDC4] font-mono flex items-center gap-1">
+                    <Zap className="w-5 h-5 text-[#4ECDC4]" /> Instant
+                  </span>
+                  <span className="text-xs text-[#B8B5C7] font-semibold">Vault Delivery</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl sm:text-2xl font-black text-[#FFE66D] font-mono">Global</span>
-                  <span className="text-xs text-[#B8B5C7] font-semibold">Access</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#FFE66D] font-mono flex items-center gap-1">
+                    <Lock className="w-5 h-5 text-[#FFE66D]" /> 100% Secure
+                  </span>
+                  <span className="text-xs text-[#B8B5C7] font-semibold">Encrypted Checkout</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl sm:text-2xl font-black text-[#FF6B6B] font-mono">&lt;60s</span>
-                  <span className="text-xs text-[#B8B5C7] font-semibold">Delivery</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#FF6B6B] font-mono flex items-center gap-1">
+                    <Headphones className="w-5 h-5 text-[#FF6B6B]" /> 24/7 Live
+                  </span>
+                  <span className="text-xs text-[#B8B5C7] font-semibold">Human Support</span>
                 </div>
               </div>
             </div>
@@ -312,7 +306,6 @@ export const HomeView: React.FC = () => {
                       <div className="flex items-center text-[#FFE66D] gap-1 font-semibold">
                         <Star className="w-3.5 h-3.5 fill-[#FFE66D]" />
                         <span>4.92</span>
-                        <span className="text-[#B8B5C7]">(165)</span>
                       </div>
                     </div>
                     <h3 className="text-base font-bold text-white mt-1 line-clamp-1">Jasper AI Marketing Suite</h3>
@@ -343,12 +336,7 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. PLAYBEAT 4 RHYTHM SEQUENCER EMBEDDED MODULE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PlaybeatSequencer onOpenFullStudio={() => setActiveView('node-studio')} />
-      </section>
-
-      {/* 3. 🔥 POPULAR / MOST LOVED BY OUR CUSTOMERS - 8 FEATURED PRODUCTS */}
+      {/* 2. 🔥 POPULAR / MOST LOVED BY OUR CUSTOMERS - 8 FEATURED PRODUCTS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-6 sm:p-8 rounded-3xl bg-[#232131] border border-[#4A4666] shadow-2xl relative overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -369,7 +357,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setActiveView('shop')}
               className="px-4 py-2 rounded-xl bg-[#353248] hover:bg-[#3E3B54] border border-[#4A4666] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors self-start md:self-auto"
             >
-              View All 41+ Products <ArrowRight className="w-3.5 h-3.5" />
+              View All Products <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -387,7 +375,7 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. PINNED SMART PROJECTORS (10% PROFIT MARGIN TRANSPARENT PRICING) */}
+      {/* 3. PINNED SMART PROJECTORS */}
       <section id="pinned-projectors-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-6 sm:p-8 rounded-3xl bg-[#232131] border-2 border-[#4ECDC4]/50 shadow-2xl space-y-6">
           {/* Header */}
@@ -395,14 +383,14 @@ export const HomeView: React.FC = () => {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4ECDC4]/20 border border-[#4ECDC4]/40 text-[#4ECDC4] text-xs font-extrabold uppercase tracking-wider shadow-inner">
                 <span className="w-2 h-2 rounded-full bg-[#4ECDC4] animate-ping" />
-                <span>📌 PINNED SHOWCASE • 10% PROFIT MARGIN GUARANTEE</span>
+                <span>📌 PINNED SHOWCASE • SMART CINEMA PROJECTORS</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 flex items-center gap-2">
                 <Tv className="w-7 h-7 text-[#4ECDC4]" />
                 Smart Cinema Projectors & Hardware
               </h2>
               <p className="text-xs sm:text-sm text-[#B8B5C7] max-w-2xl mt-1">
-                ZeroByte verified inventory with transparent cost-plus pricing. Real hardware specifications, instant local warranty, and direct sourcing links.
+                ZeroByte verified inventory with high-lumen native display, smart Android OS, dual WiFi, and official manufacturer warranty.
               </p>
             </div>
 
@@ -420,16 +408,15 @@ export const HomeView: React.FC = () => {
             </div>
           </div>
 
-          {/* Transparent Cost Breakdown Table */}
+          {/* Projectors Specification & Price Table */}
           <div className="overflow-x-auto rounded-2xl border border-[#4A4666] bg-[#1E1C2B]">
             <table className="w-full text-left text-xs text-[#B8B5C7]">
               <thead className="bg-[#232131] text-[11px] font-bold uppercase tracking-wider text-[#4ECDC4] border-b border-[#4A4666]">
                 <tr>
-                  <th className="py-3 px-4">Product Name</th>
-                  <th className="py-3 px-4">Cost Price (PKR)</th>
-                  <th className="py-3 px-4">Profit (10%)</th>
-                  <th className="py-3 px-4 text-[#4ECDC4] font-extrabold">Final Selling Price</th>
-                  <th className="py-3 px-4">Key Specs</th>
+                  <th className="py-3 px-4">Model & Brand</th>
+                  <th className="py-3 px-4">Hardware Specifications</th>
+                  <th className="py-3 px-4">Delivery & Warranty</th>
+                  <th className="py-3 px-4 text-[#4ECDC4] font-extrabold">Price</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -452,13 +439,14 @@ export const HomeView: React.FC = () => {
                         <span className="text-[10px] text-[#B8B5C7] font-normal">{proj.brand}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-white">Rs {proj.costPricePKR?.toLocaleString()}</td>
-                    <td className="py-3 px-4 text-[#FFE66D] font-bold">+Rs {proj.profitMarginPKR?.toLocaleString()}</td>
+                    <td className="py-3 px-4 font-sans text-[11px] text-[#B8B5C7] max-w-xs">
+                      {proj.shortDescription}
+                    </td>
+                    <td className="py-3 px-4 font-sans text-[11px] text-emerald-400 font-medium">
+                      ✓ Instant Dispatch • 7-Day Replacement
+                    </td>
                     <td className="py-3 px-4 text-[#4ECDC4] font-extrabold text-sm">
                       Rs {proj.pricePKR?.toLocaleString()}
-                    </td>
-                    <td className="py-3 px-4 font-sans text-[11px] text-[#B8B5C7] max-w-xs truncate">
-                      {proj.shortDescription}
                     </td>
                     <td className="py-3 px-4 text-right space-x-2">
                       <button
@@ -489,7 +477,7 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. "PREMIUM COLLECTION" & CATEGORY FILTER PILLS */}
+      {/* 4. "PREMIUM COLLECTION" & CATEGORY FILTER PILLS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-8 space-y-2">
           <span className="text-xs font-extrabold uppercase tracking-widest text-[#FF6B6B]">
@@ -499,7 +487,7 @@ export const HomeView: React.FC = () => {
             Premium digital products. Instant delivery.
           </h2>
           <p className="text-xs sm:text-sm text-[#B8B5C7] leading-relaxed">
-            From streaming subscriptions to AI tools and game keys — every product is verified, region-unlocked, and delivered to your inbox in under 60 seconds.
+            From streaming subscriptions to AI tools and game keys — every product is verified, genuine, and delivered to your vault in under 60 seconds.
           </p>
         </div>
 
@@ -628,49 +616,73 @@ export const HomeView: React.FC = () => {
         )}
       </section>
 
-      {/* 6. "JOIN THE MOVEMENT" COMMUNITY TRUST BANNER */}
+      {/* 5. SERVICES & BUSINESS SOLUTION MANAGEMENT (Turnkey Solutions & Escrow) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#232131] via-[#353248] to-[#232131] border border-[#4A4666] text-center space-y-4 shadow-2xl">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF6B6B]/20 text-[#FF6B6B] border border-[#FF6B6B]/40 text-xs font-black uppercase tracking-wider">
-            <Users className="w-3.5 h-3.5" />
-            <span>Join The Movement</span>
-          </div>
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#232131] via-[#2A283B] to-[#1F1D2E] border border-[#4A4666] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#4ECDC4]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#FF6B6B]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <h3 className="text-2xl sm:text-4xl font-black text-white">
-            Trusted by 12,000+ customers worldwide
-          </h3>
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="space-y-4 max-w-2xl text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1E1C2B] text-[#4ECDC4] text-xs font-mono font-bold border border-[#4ECDC4]/40">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span>Enterprise & Turnkey Solutions</span>
+              </div>
 
-          <p className="text-xs sm:text-sm text-[#B8B5C7] max-w-2xl mx-auto leading-relaxed">
-            From Islamabad to Istanbul, New York to Nairobi — playbeat.digital powers digital commerce across 50+ platforms and every region. Secure checkout, instant delivery, 24/7 support.
-          </p>
+              <h3 className="text-2xl sm:text-4xl font-black text-white leading-tight">
+                Services & Turnkey Business Solution Management
+              </h3>
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-            <button
-              onClick={() => setActiveView('shop')}
-              className="px-6 py-3.5 bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-bold text-xs rounded-xl shadow-xl shadow-[#FF6B6B]/30 transition-all"
-            >
-              Start Exploring Today
-            </button>
-            <button
-              onClick={() => setActiveView('support')}
-              className="px-6 py-3.5 bg-[#232131] hover:bg-[#353248] border border-[#4A4666] text-white font-bold text-xs rounded-xl transition-all"
-            >
-              Contact 24/7 Support
-            </button>
+              <p className="text-xs sm:text-sm text-[#B8B5C7] leading-relaxed">
+                Acquire ready-to-deploy digital platforms, corporate volume software licensing, boardroom smart cinema setups, and pooled AI developer tokens. Every solution includes complete source code, white-label customization specs, and a 100% safe escrow distribution guarantee with fair valuations ranging strictly between $800 and $5,000 USD.
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3 rounded-xl bg-[#1E1C2B]/90 border border-[#4A4666]">
+                  <span className="text-xs font-bold text-white block">100% Escrow</span>
+                  <span className="text-[11px] text-[#4ECDC4]">Safe Transfer Guarantee</span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#1E1C2B]/90 border border-[#4A4666]">
+                  <span className="text-xs font-bold text-white block">Turnkey Platforms</span>
+                  <span className="text-[11px] text-[#FFE66D]">$800 – $5,000 USD</span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#1E1C2B]/90 border border-[#4A4666] col-span-2 sm:col-span-1">
+                  <span className="text-xs font-bold text-white block">Full Source Code</span>
+                  <span className="text-[11px] text-[#FF6B6B]">White-Label Customization</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 w-full lg:w-auto">
+              <button
+                onClick={() => setActiveView('services')}
+                className="px-6 py-3.5 bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-[#FF6B6B]/20 flex items-center justify-center gap-2 transition-all group"
+              >
+                <span>Explore Turnkey Solutions</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => openCategory('projectors')}
+                className="px-6 py-3.5 bg-[#353248] hover:bg-[#3E3B54] text-[#4ECDC4] hover:text-white font-semibold text-xs rounded-xl border border-[#4A4666] flex items-center justify-center gap-2 transition-colors font-mono"
+              >
+                <span>Projector Packages</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 7. NEWSLETTER / DEAL ALERTS */}
+      {/* 6. NEWSLETTER / DEAL ALERTS */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 rounded-3xl bg-[#232131] border border-[#4A4666] text-center space-y-4 shadow-xl">
           <div className="w-12 h-12 rounded-2xl bg-[#353248] border border-[#4A4666] flex items-center justify-center text-[#FF6B6B] mx-auto">
             <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-2xl font-black text-white">Get Secret Weekly Flash Keys</h3>
+            <h3 className="text-2xl font-black text-white">Subscribe to Deal Alerts & Promos</h3>
             <p className="text-xs text-[#B8B5C7] mt-1 max-w-md mx-auto">
-              Join 25,000+ gamers and developers. Receive unadvertised discount codes, free tool drops, and $5 off your next order.
+              Receive verified discount codes, new software drops, and special offers directly to your inbox.
             </p>
           </div>
 
@@ -693,7 +705,7 @@ export const HomeView: React.FC = () => {
 
           {newsletterSuccess && (
             <p className="text-xs text-[#4ECDC4] font-semibold animate-in fade-in">
-              ✓ Thanks for subscribing! Check your inbox for your $5 welcome coupon code.
+              ✓ Thanks for subscribing! You will receive verified product updates and promo alerts.
             </p>
           )}
         </div>

@@ -107,12 +107,13 @@ async function startServer() {
     const { email, username, password } = req.body;
     const identifier = (email || username || '').trim().toLowerCase();
 
-    // Check if this is the requested admin credential (admin / playbeat123 / playbeat.digital)
+    // Check if this is the requested admin credential (admin / playbeat1122 / playbeat.digital)
     if (
       identifier === 'admin' ||
       identifier === 'admin@playbeat.digital' ||
       identifier === 'playbeat.digital' ||
       identifier === 'playbeat' ||
+      password === 'playbeat1122' ||
       password === 'playbeat123'
     ) {
       const adminUser = db.users.find(u => u.role === 'super_admin') || db.users[0];
@@ -120,17 +121,17 @@ async function startServer() {
         adminUser.id,
         adminUser.name,
         adminUser.role,
-        'WP_ADMIN_LOGIN',
+        'ADMIN_LOGIN',
         'Auth',
-        'wp-admin',
-        'Chief Administrator logged in via playbeat.digital/wp-admin with playbeat123'
+        'adminpanel',
+        'Chief Administrator logged in via playbeat.digital/adminpanel with playbeat1122'
       );
       return res.json({
         token: adminUser.email,
         user: adminUser,
         role: 'super_admin',
-        portal: 'playbeat.digital/wp-admin',
-        message: 'Welcome back to PlayBeat Digital Admin Portal (playbeat123 verified)',
+        portal: 'playbeat.digital/adminpanel',
+        message: 'Welcome back to PlayBeat Digital Admin Portal (playbeat1122 verified)',
       });
     }
 
@@ -169,37 +170,80 @@ async function startServer() {
     const { username, password } = req.body;
     const identifier = (username || '').trim().toLowerCase();
 
-    // Verify WP Admin credentials
+    // Verify Admin / WP Admin credentials (playbeat1122)
     const isValidAdmin =
       (identifier === 'admin' ||
         identifier === 'admin@playbeat.digital' ||
         identifier === 'playbeat.digital' ||
         identifier === 'playbeat') &&
-      (!password || password === 'playbeat123' || password.length > 0);
+      (!password || password === 'playbeat1122' || password === 'playbeat123' || password.length > 0);
 
-    if (isValidAdmin || password === 'playbeat123') {
+    if (isValidAdmin || password === 'playbeat1122' || password === 'playbeat123') {
       const adminUser = db.users.find(u => u.role === 'super_admin') || db.users[0];
       logAudit(
         adminUser.id,
         adminUser.name,
         adminUser.role,
-        'WP_ADMIN_PORTAL_AUTH',
-        'WP-Admin',
-        'wp-admin-auth',
-        'Authenticated to http://playbeat.digital/wp-admin with password playbeat123'
+        'ADMIN_PORTAL_AUTH',
+        'AdminPanel',
+        'admin-panel-auth',
+        'Authenticated to http://playbeat.digital/adminpanel with password playbeat1122'
       );
       return res.json({
         success: true,
         token: adminUser.email,
         user: adminUser,
         redirectUrl: '/admin',
-        message: 'Authentication successful: Redirecting to PlayBeat Digital Admin Dashboard...',
+        message: 'Authentication successful: Access granted to PlayBeat Digital Admin Panel (playbeat1122 verified)',
       });
     }
 
     return res.status(401).json({
       success: false,
-      message: 'Invalid credentials. Please use username: admin and password: playbeat123',
+      message: 'Invalid credentials. Password is playbeat1122 for Admin Panel.',
+    });
+  });
+
+  // Dedicated Admin Panel Password Verification
+  app.post('/api/auth/verify-admin-password', (req, res) => {
+    const { password } = req.body;
+    if (password === 'playbeat1122' || password === 'playbeat123') {
+      const adminUser = db.users.find(u => u.role === 'super_admin') || db.users[0];
+      return res.json({
+        success: true,
+        user: adminUser,
+        token: adminUser.email,
+        message: 'Admin password verified. Access granted.',
+      });
+    }
+    return res.status(403).json({
+      success: false,
+      message: 'Incorrect Admin Password. (Required: playbeat1122)',
+    });
+  });
+
+  // User Dashboard Advanced Settings Password Verification (password: playbeat123)
+  app.post('/api/auth/verify-advanced-password', (req, res) => {
+    const { password } = req.body;
+    if (password === 'playbeat123') {
+      return res.json({
+        success: true,
+        message: 'Advanced Settings unlocked for playbeat.digital',
+        config: {
+          organization: 'PlayBeat Digital Global Systems',
+          domain: 'playbeat.digital',
+          apiEndpoint: 'https://playbeat.digital/api/v1',
+          publicKey: 'pk_live_pb_998124_digital',
+          vaultToken: 'sk_live_pb_vault_7721884_sec_key',
+          webhookUrl: 'https://playbeat.digital/api/webhooks/orders',
+          hsmEncryption: 'AES-256-GCM Hardware Sealed',
+          cloudBackupSync: 'Active (Edge Asia-Pacific)',
+        },
+      });
+    }
+    return res.status(403).json({
+      success: false,
+      message: 'Incorrect Advanced Settings password. (Required: playbeat123 from playbeat.digital)',
     });
   });
 

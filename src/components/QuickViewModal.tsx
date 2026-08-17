@@ -184,11 +184,7 @@ export const QuickViewModal: React.FC = () => {
                     ? `₨ ${currentPricePKR.toLocaleString()}`
                     : formatPrice(currentPrice)}
                 </span>
-                {currentCostPKR ? (
-                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60 font-mono">
-                    Cost: ₨ {currentCostPKR.toLocaleString()} (+10% Profit)
-                  </span>
-                ) : originalPrice > currentPrice ? (
+                {originalPrice > currentPrice && !currentPricePKR ? (
                   <>
                     <span className="text-sm text-slate-500 line-through font-mono">
                       {formatPrice(originalPrice)}

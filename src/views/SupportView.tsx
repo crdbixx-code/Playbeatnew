@@ -97,22 +97,40 @@ export const SupportView: React.FC = () => {
       </div>
 
       {/* Quick Contact Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-          <Mail className="w-6 h-6 text-cyan-400" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a
+          href="mailto:support@playbeat.digital"
+          className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500/50 transition-all space-y-2 block group"
+        >
+          <Mail className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform" />
           <h3 className="text-sm font-bold text-white">Email Assistance</h3>
-          <p className="text-xs text-slate-400">support@playbeat.digital</p>
+          <p className="text-xs text-cyan-300 font-mono">support@playbeat.digital</p>
           <span className="text-[10px] text-emerald-400 font-mono block">Avg response: &lt; 15 mins</span>
-        </div>
+        </a>
 
-        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+        <a
+          href="https://wa.me/923321029333"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-5 rounded-2xl bg-slate-900 border border-emerald-500/40 hover:border-emerald-400 transition-all space-y-2 block group"
+        >
+          <Phone className="w-6 h-6 text-[#25D366] group-hover:scale-110 transition-transform" />
+          <h3 className="text-sm font-bold text-white flex items-center justify-between">
+            <span>Direct WhatsApp</span>
+            <span className="text-[9px] bg-emerald-950 text-emerald-300 px-1.5 py-0.5 rounded font-mono font-bold">24/7 Live</span>
+          </h3>
+          <p className="text-xs text-[#25D366] font-mono font-bold">+923321029333</p>
+          <span className="text-[10px] text-emerald-300 font-mono block">Direct chat with engineers</span>
+        </a>
+
+        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
           <Clock className="w-6 h-6 text-emerald-400" />
           <h3 className="text-sm font-bold text-white">Business Hours</h3>
           <p className="text-xs text-slate-400">Monday - Sunday: 24/7/365</p>
           <span className="text-[10px] text-emerald-400 font-mono block">Global Key Server Operations</span>
         </div>
 
-        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
           <ShieldCheck className="w-6 h-6 text-purple-400" />
           <h3 className="text-sm font-bold text-white">7-Day Guarantee</h3>
           <p className="text-xs text-slate-400">100% Genuine Retail Guarantee</p>

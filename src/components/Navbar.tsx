@@ -31,6 +31,7 @@ import {
   CheckCircle2,
   Play,
   Square,
+  Briefcase,
 } from 'lucide-react';
 import { UserRole } from '../types';
 
@@ -81,21 +82,21 @@ export const Navbar: React.FC = () => {
     currentUser?.role === 'finance';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#060810]/95 backdrop-blur-2xl shadow-xl shadow-black/40">
+    <header className="sticky top-0 z-40 w-full border-b border-[#C8CDD5] bg-[#FFFFFF]/95 backdrop-blur-2xl shadow-sm text-[#071A3D]">
       {/* Top Value Banner */}
-      <div className="bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-indigo-950/80 px-4 py-1.5 text-xs text-slate-300 border-b border-white/5 hidden md:block">
+      <div className="bg-[#071A3D] px-4 py-1.5 text-xs text-[#C8CDD5] border-b border-[#C8CDD5]/20 hidden md:block">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px]">
-          <div className="flex items-center gap-4 text-slate-400">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-              <Zap className="w-3.5 h-3.5 text-cyan-400" /> Instant Vault Delivery: &lt;60s
+          <div className="flex items-center gap-4 text-[#C8CDD5]">
+            <span className="flex items-center gap-1.5 text-white font-semibold">
+              <Zap className="w-3.5 h-3.5 text-[#F5C542]" /> Instant Vault Delivery: &lt;60s
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="flex items-center gap-1 text-slate-300">
-              <Shield className="w-3.5 h-3.5 text-blue-400" /> 100% Genuine Verified Digital Keys
+            <span className="text-[#C8CDD5]/40">•</span>
+            <span className="flex items-center gap-1 text-[#C8CDD5]">
+              <Shield className="w-3.5 h-3.5 text-[#F5C542]" /> 100% Genuine Verified Digital Keys
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="flex items-center gap-1 text-amber-300">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> 4.9/5 Rating (12,800+ Orders)
+            <span className="text-[#C8CDD5]/40">•</span>
+            <span className="flex items-center gap-1 text-white">
+              <Star className="w-3.5 h-3.5 fill-[#F5C542] text-[#F5C542]" /> 24/7 Live Key Vault Delivery & Support
             </span>
           </div>
 
@@ -104,15 +105,15 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
-                className="flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors"
+                className="flex items-center gap-1 text-[#C8CDD5] hover:text-white transition-colors"
                 title="Select Region"
               >
-                <Globe className="w-3 h-3 text-cyan-400" />
+                <Globe className="w-3 h-3 text-[#F5C542]" />
                 <span className="font-mono">{selectedRegion}</span>
                 <ChevronDown className="w-2.5 h-2.5" />
               </button>
               {isRegionDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-32 bg-[#0d111d] border border-white/10 rounded-xl p-1 shadow-2xl z-50 animate-in fade-in">
+                <div className="absolute right-0 mt-1 w-32 bg-[#041126] border border-[#C8CDD5]/30 rounded-xl p-1 shadow-2xl z-50 animate-in fade-in">
                   {['GLOBAL', 'US', 'EU', 'UK', 'ASIA'].map(r => (
                     <button
                       key={r}
@@ -121,31 +122,31 @@ export const Navbar: React.FC = () => {
                         setIsRegionDropdownOpen(false);
                       }}
                       className={`w-full text-left px-2.5 py-1 text-xs rounded-lg flex items-center justify-between ${
-                        selectedRegion === r ? 'bg-cyan-950 text-cyan-300 font-bold' : 'text-slate-300 hover:bg-white/5'
+                        selectedRegion === r ? 'bg-[#071A3D] text-[#F5C542] font-bold' : 'text-[#C8CDD5] hover:bg-white/10'
                       }`}
                     >
                       <span>{r}</span>
-                      {selectedRegion === r && <CheckCircle2 className="w-3 h-3 text-cyan-400" />}
+                      {selectedRegion === r && <CheckCircle2 className="w-3 h-3 text-[#F5C542]" />}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            <span className="text-slate-700">|</span>
+            <span className="text-[#C8CDD5]/30">|</span>
 
             {/* Currency Selector */}
             <div className="relative">
               <button
                 onClick={() => setIsCurrencyDropdownOpen(!isCurrencyDropdownOpen)}
-                className="flex items-center gap-1 text-slate-300 hover:text-white font-mono font-bold transition-colors"
+                className="flex items-center gap-1 text-white hover:text-[#F5C542] font-mono font-bold transition-colors"
                 title="Select Currency"
               >
                 <span>{currency}</span>
                 <ChevronDown className="w-2.5 h-2.5" />
               </button>
               {isCurrencyDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-36 bg-[#0d111d] border border-white/10 rounded-xl p-1 shadow-2xl z-50 animate-in fade-in">
+                <div className="absolute right-0 mt-1 w-36 bg-[#041126] border border-[#C8CDD5]/30 rounded-xl p-1 shadow-2xl z-50 animate-in fade-in">
                   {[
                     { code: 'USD', symbol: '$', label: 'USD ($)' },
                     { code: 'PKR', symbol: '₨', label: 'PKR (₨)' },
@@ -159,22 +160,32 @@ export const Navbar: React.FC = () => {
                         setIsCurrencyDropdownOpen(false);
                       }}
                       className={`w-full text-left px-2.5 py-1.5 text-xs rounded-lg flex items-center justify-between ${
-                        currency === c.code ? 'bg-blue-950 text-blue-300 font-bold' : 'text-slate-300 hover:bg-white/5'
+                        currency === c.code ? 'bg-[#071A3D] text-[#F5C542] font-bold' : 'text-[#C8CDD5] hover:bg-white/10'
                       }`}
                     >
                       <span>{c.label}</span>
-                      {currency === c.code && <CheckCircle2 className="w-3 h-3 text-cyan-400" />}
+                      {currency === c.code && <CheckCircle2 className="w-3 h-3 text-[#F5C542]" />}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            <span className="text-slate-700">|</span>
+            <span className="text-[#C8CDD5]/30">|</span>
+
+            <button
+              onClick={() => setActiveView('services')}
+              className="text-[#F5C542] hover:text-[#DFAF2B] transition-colors font-semibold flex items-center gap-1"
+            >
+              <Briefcase className="w-3 h-3" />
+              <span>Services & Solutions</span>
+            </button>
+
+            <span className="text-[#C8CDD5]/30">|</span>
 
             <button
               onClick={() => setActiveView('support')}
-              className="text-slate-400 hover:text-cyan-300 transition-colors"
+              className="text-[#C8CDD5] hover:text-white transition-colors"
             >
               24/7 Live Support
             </button>
@@ -185,56 +196,56 @@ export const Navbar: React.FC = () => {
       {/* Main Bar: Logo, Sequencer Transport Header, Search Bar, Quick Actions */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 gap-3 sm:gap-5 py-2">
-          {/* Audiomodern Logo ▲ + ● playbeat 4 */}
+          {/* Brand Logo ▲ + ● playbeat digital */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               id="brand-logo-btn"
               onClick={() => setActiveView('home')}
-              className="flex items-center gap-2.5 text-left group focus:outline-none"
+              className="flex items-center gap-2.5 text-left group focus:outline-none cursor-pointer"
             >
               {/* Audiomodern Peak Logo Icon ▲ */}
-              <div className="w-10 h-10 rounded-xl bg-[#232131] border border-[#4A4666] flex items-center justify-center shadow-lg group-hover:border-[#FF6B6B] transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#071A3D] border border-[#C8CDD5] flex items-center justify-center shadow-md group-hover:border-[#041126] transition-all">
                 <span className="text-white text-base font-black leading-none select-none">▲</span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5 leading-none">
-                  {/* Orange-red circular element ● */}
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B] shadow-[0_0_8px_#FF6B6B] animate-pulse inline-block" />
-                  <span className="text-xl font-black tracking-tight text-white uppercase">
-                    playbeat <span className="text-[#FF6B6B]">4</span>
+                  {/* Yellow circular element ● */}
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#F5C542] shadow-[0_0_8px_#F5C542] inline-block" />
+                  <span className="text-xl font-black tracking-tight text-[#041126] uppercase">
+                    PLAYBEAT <span className="text-[#071A3D]">DIGITAL</span>
                   </span>
                 </div>
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#B8B5C7] mt-0.5">
+                <span className="text-[9px] uppercase tracking-[0.2em] font-extrabold text-[#64748B] mt-0.5">
                   playbeat.digital
                 </span>
               </div>
             </button>
           </div>
 
-          {/* Header Section Transport Bar: BPM Display & Central Red Circular Play Button */}
-          <div className="hidden xl:flex items-center gap-2 bg-[#232131] px-3.5 py-1.5 rounded-2xl border border-[#4A4666] shadow-inner">
+          {/* Header Section Transport Bar: BPM Display & Central Play Button */}
+          <div className="hidden xl:flex items-center gap-2 bg-[#F3F5F8] px-3.5 py-1.5 rounded-2xl border border-[#C8CDD5] shadow-xs">
             {/* BPM Display */}
-            <div className="flex items-center gap-1.5 pr-2.5 border-r border-[#4A4666]">
+            <div className="flex items-center gap-1.5 pr-2.5 border-r border-[#C8CDD5]">
               <div className="flex flex-col text-left">
-                <span className="text-[8px] uppercase font-bold text-[#B8B5C7] tracking-wider">BPM</span>
-                <span className="text-xs font-black text-white font-mono">120.00</span>
+                <span className="text-[8px] uppercase font-bold text-[#64748B] tracking-wider">BPM</span>
+                <span className="text-xs font-black text-[#041126] font-mono">120.00</span>
               </div>
             </div>
 
-            {/* Central Prominent Red Circular Play Button */}
+            {/* Central Prominent Yellow Circular Play Button */}
             <button
               id="header-transport-play-btn"
               onClick={() => setActiveView('node-studio')}
-              className="w-8 h-8 rounded-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white flex items-center justify-center shadow-[0_0_12px_#FF6B6B] active:scale-95 transition-all"
+              className="w-8 h-8 rounded-full bg-[#F5C542] hover:bg-[#DFAF2B] text-[#041126] flex items-center justify-center shadow-md active:scale-95 transition-all cursor-pointer"
               title="Open Sequencer Studio / Play Rhythm"
             >
-              <Play className="w-4 h-4 fill-white ml-0.5" />
+              <Play className="w-4 h-4 fill-[#041126] ml-0.5" />
             </button>
 
             {/* Stop / Studio Shortcut */}
             <button
               onClick={() => setActiveView('node-studio')}
-              className="p-1.5 rounded-lg bg-[#353248] hover:bg-[#4A4666] text-[#B8B5C7] hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-white hover:bg-[#071A3D] text-[#071A3D] hover:text-white border border-[#C8CDD5] transition-colors cursor-pointer"
               title="Open Playbeat 4 Studio"
             >
               <Square className="w-3 h-3 fill-current" />
@@ -242,28 +253,28 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => setActiveView('node-studio')}
-              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#E84A8C]/20 hover:bg-[#E84A8C]/30 text-[#E84A8C] border border-[#E84A8C]/40 text-[10px] font-bold tracking-wider uppercase transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#071A3D] hover:bg-[#041126] text-[#F5C542] text-[10px] font-bold tracking-wider uppercase transition-colors cursor-pointer"
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="w-3 h-3 text-[#F5C542]" />
               <span>Studio</span>
             </button>
           </div>
 
-          {/* Full-width Search Bar with Requested Placeholder */}
+          {/* Full-width Search Bar */}
           <div className="flex-1 max-w-xl">
             <button
               id="header-full-search-btn"
               onClick={() => setIsSearchOpen(true)}
-              className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#232131] hover:bg-[#353248] border border-[#4A4666] text-[#B8B5C7] hover:text-white text-xs transition-all shadow-inner group"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#F3F5F8] hover:bg-[#FFFFFF] border border-[#C8CDD5] hover:border-[#071A3D] text-[#64748B] hover:text-[#041126] text-xs transition-all shadow-xs group cursor-pointer"
             >
               <div className="flex items-center gap-2.5 truncate">
-                <Search className="w-4 h-4 text-[#FF6B6B] group-hover:scale-110 transition-transform shrink-0" />
-                <span className="text-[#B8B5C7] text-xs truncate">
+                <Search className="w-4 h-4 text-[#071A3D] group-hover:scale-110 transition-transform shrink-0" />
+                <span className="text-[#64748B] group-hover:text-[#041126] text-xs truncate font-medium">
                   Search game keys, AI tools, gift cards, software... Press Enter to search
                 </span>
               </div>
               <div className="flex items-center gap-1 shrink-0 ml-2">
-                <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-semibold bg-[#2D2B3D] text-white rounded border border-[#4A4666]">
+                <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-semibold bg-white text-[#071A3D] rounded border border-[#C8CDD5]">
                   ⌘K
                 </kbd>
               </div>
@@ -276,9 +287,9 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-node-studio-btn"
               onClick={() => setActiveView('node-studio')}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FF6B6B]/15 hover:bg-[#FF6B6B]/25 border border-[#FF6B6B]/40 text-[#FF6B6B] text-xs font-bold uppercase tracking-wider transition-all"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F3F5F8] hover:bg-[#071A3D] hover:text-white border border-[#C8CDD5] text-[#071A3D] text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
             >
-              <Radio className="w-3.5 h-3.5 animate-pulse text-[#FF6B6B]" />
+              <Radio className="w-3.5 h-3.5 text-[#F5C542]" />
               Sequencer Studio
             </button>
 
@@ -286,12 +297,12 @@ export const Navbar: React.FC = () => {
             <button
               id="wishlist-nav-btn"
               onClick={() => setActiveView('account')}
-              className="relative p-2 rounded-xl text-[#B8B5C7] hover:text-white hover:bg-[#353248] border border-transparent hover:border-[#4A4666] transition-colors"
+              className="relative p-2 rounded-xl text-[#071A3D] hover:bg-[#F3F5F8] border border-[#C8CDD5] transition-colors cursor-pointer"
               title="Saved Wishlist"
             >
               <Heart className="w-4 h-4" />
               {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#FF6B6B] text-white text-[9px] font-bold">
+                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#F5C542] text-[#041126] text-[9px] font-bold">
                   {wishlist.length}
                 </span>
               )}
@@ -301,14 +312,14 @@ export const Navbar: React.FC = () => {
             <button
               id="cart-nav-btn"
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF6B6B] hover:bg-[#ff5252] text-white text-xs font-bold shadow-lg shadow-[#FF6B6B]/30 transition-all group"
+              className="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#F5C542] hover:bg-[#DFAF2B] text-[#041126] text-xs font-extrabold shadow-sm transition-all group cursor-pointer"
             >
               <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <div className="flex flex-col text-left leading-none">
-                <span className="text-[9px] text-white/80 font-medium hidden sm:inline">Cart</span>
-                <span className="text-xs font-mono font-bold">{formatPrice(cartSubtotal)}</span>
+                <span className="text-[9px] text-[#041126]/80 font-bold hidden sm:inline">Cart</span>
+                <span className="text-xs font-mono font-black">{formatPrice(cartSubtotal)}</span>
               </div>
-              <span className="w-4 h-4 flex items-center justify-center rounded-full bg-white text-[#2D2B3D] text-[10px] font-black font-mono ml-0.5">
+              <span className="w-4 h-4 flex items-center justify-center rounded-full bg-[#041126] text-[#F5C542] text-[10px] font-black font-mono ml-0.5">
                 {cartCount}
               </span>
             </button>
@@ -318,67 +329,65 @@ export const Navbar: React.FC = () => {
               <button
                 id="user-menu-btn"
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs transition-all"
+                className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-[#F3F5F8] hover:bg-white border border-[#C8CDD5] text-[#071A3D] text-xs transition-all cursor-pointer"
               >
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-900 to-blue-900 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-xs">
+                <div className="w-7 h-7 rounded-lg bg-[#071A3D] text-[#F5C542] flex items-center justify-center font-bold text-xs">
                   {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div className="hidden sm:block text-left">
-                  <div className="text-xs font-bold text-slate-200 line-clamp-1">
+                  <div className="text-xs font-bold text-[#041126] line-clamp-1">
                     {currentUser?.name || 'My Account'}
                   </div>
-                  <div className="text-[9px] text-cyan-400 font-mono capitalize">
+                  <div className="text-[9px] text-[#64748B] font-mono capitalize">
                     {currentUser?.role?.replace('_', ' ') || 'Customer'}
                   </div>
                 </div>
-                <ChevronDown className="w-3 h-3 text-slate-400 hidden sm:block" />
+                <ChevronDown className="w-3 h-3 text-[#64748B] hidden sm:block" />
               </button>
 
               {/* User Dropdown Menu */}
               {isUserDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-64 p-2 bg-[#0c101d]/98 backdrop-blur-2xl border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/90 z-50 animate-in fade-in duration-150">
-                  <div className="px-3 py-2 border-b border-slate-800">
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Signed in as</p>
-                    <p className="text-xs font-bold text-white truncate">{currentUser?.email}</p>
+                <div className="absolute right-0 mt-2 w-64 p-2 bg-[#FFFFFF] border border-[#C8CDD5] rounded-2xl shadow-2xl z-50 animate-in fade-in duration-150 text-[#071A3D]">
+                  <div className="px-3 py-2 border-b border-[#C8CDD5]/60">
+                    <p className="text-[10px] uppercase tracking-wider text-[#64748B] font-bold">Signed in as</p>
+                    <p className="text-xs font-bold text-[#041126] truncate">{currentUser?.email}</p>
                     <div className="mt-1.5 flex items-center justify-between text-[10px]">
-                      <span className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">
+                      <span className="px-2 py-0.5 rounded bg-[#F3F5F8] text-[#071A3D] border border-[#C8CDD5] font-mono font-bold">
                         {currentUser?.role?.replace('_', ' ')}
                       </span>
-                      <span className="text-emerald-400 font-mono font-bold">
+                      <span className="text-[#071A3D] font-mono font-bold">
                         Vault: Active ⚡
                       </span>
                     </div>
                   </div>
 
                   <div className="py-1">
-                    {isAdminOrStaff && (
-                      <button
-                        id="dropdown-admin-btn"
-                        onClick={() => {
-                          setActiveView('admin');
-                          setIsUserDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-cyan-300 hover:bg-slate-800/80 rounded-xl font-bold transition-colors"
-                      >
-                        <Shield className="w-4 h-4 text-cyan-400" />
-                        Admin Control Center
-                      </button>
-                    )}
-
                     <button
-                      id="dropdown-wp-admin-btn"
+                      id="dropdown-storefront-btn"
                       onClick={() => {
-                        setActiveView('wp-admin');
+                        setActiveView('shop');
                         setIsUserDropdownOpen(false);
                       }}
-                      className="w-full flex items-center justify-between px-3 py-2 text-xs text-indigo-300 hover:bg-slate-800/80 rounded-xl font-semibold transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-[#071A3D] hover:bg-[#F3F5F8] rounded-xl transition-colors font-semibold"
+                    >
+                      <ShoppingBag className="w-4 h-4 text-[#071A3D]" />
+                      <span>Storefront Catalog (/storefront)</span>
+                    </button>
+
+                    <button
+                      id="dropdown-admin-panel-btn"
+                      onClick={() => {
+                        setActiveView('admin');
+                        setIsUserDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs text-[#041126] hover:bg-[#F3F5F8] rounded-xl font-bold transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
-                        <Lock className="w-4 h-4 text-indigo-400" />
-                        <span>WP-Admin Portal</span>
+                        <Shield className="w-4 h-4 text-[#F5C542]" />
+                        <span>Admin Panel (/adminpanel)</span>
                       </div>
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-700/50">
-                        playbeat123
+                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#071A3D] text-[#F5C542]">
+                        playbeat1122
                       </span>
                     </button>
 
@@ -388,9 +397,9 @@ export const Navbar: React.FC = () => {
                         setActiveView('account');
                         setIsUserDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 rounded-xl transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-[#071A3D] hover:bg-[#F3F5F8] rounded-xl transition-colors"
                     >
-                      <UserIcon className="w-4 h-4 text-slate-400" />
+                      <UserIcon className="w-4 h-4 text-[#64748B]" />
                       Digital Keys Vault
                     </button>
 
@@ -400,18 +409,18 @@ export const Navbar: React.FC = () => {
                         setActiveView('support');
                         setIsUserDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 rounded-xl transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-[#071A3D] hover:bg-[#F3F5F8] rounded-xl transition-colors"
                     >
-                      <HelpCircle className="w-4 h-4 text-slate-400" />
+                      <HelpCircle className="w-4 h-4 text-[#64748B]" />
                       Support Tickets & FAQ
                     </button>
                   </div>
 
-                  <div className="pt-1 border-t border-slate-800">
+                  <div className="pt-1 border-t border-[#C8CDD5]/60">
                     <button
                       id="dropdown-logout-btn"
                       onClick={() => setIsUserDropdownOpen(false)}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-rose-400 hover:bg-rose-950/30 rounded-xl transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
@@ -424,7 +433,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+              className="lg:hidden p-2 rounded-xl bg-[#F3F5F8] border border-[#C8CDD5] text-[#071A3D] hover:bg-white"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -433,7 +442,7 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Primary Nav Mega-Menu Strip (Desktop) */}
-      <div className="hidden lg:block border-t border-slate-800/60 bg-[#050711]/90">
+      <div className="hidden lg:block border-t border-[#C8CDD5] bg-[#F3F5F8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center justify-between">
             <div className="flex items-center gap-1 py-1">
@@ -453,8 +462,8 @@ export const Navbar: React.FC = () => {
                 >
                   <Tv className="w-4 h-4 text-cyan-400" />
                   <span>Projectors</span>
-                  <span className="px-1.5 py-0.2 text-[9px] rounded bg-emerald-500 text-slate-950 font-extrabold ml-0.5">
-                    10% Margin
+                  <span className="px-1.5 py-0.2 text-[9px] rounded bg-cyan-900/80 text-cyan-300 font-extrabold ml-0.5 border border-cyan-700/50">
+                    Smart 4K
                   </span>
                   <ChevronDown className="w-3 h-3 text-slate-400" />
                 </button>
@@ -469,19 +478,19 @@ export const Navbar: React.FC = () => {
                         <li>
                           <button onClick={() => openProductDetail('magcubic-hy300-pro')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">Magcubic HY300 PRO</span>
-                            <span className="text-[10px] text-slate-400">Rs 24,750 (Cost: Rs 22.5k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 24,750 • 200 ANSI</span>
                           </button>
                         </li>
                         <li>
                           <button onClick={() => openProductDetail('hy300-plus-projector')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">HY300 Plus Projector</span>
-                            <span className="text-[10px] text-slate-400">Rs 24,750 (Cost: Rs 22.5k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 24,750 • Electric Focus</span>
                           </button>
                         </li>
                         <li>
                           <button onClick={() => openProductDetail('magcubic-hy300pro-plus')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">Magcubic HY300Pro Plus</span>
-                            <span className="text-[10px] text-slate-400">Rs 29,150 (Cost: Rs 26.5k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 29,150 • 300 ANSI</span>
                           </button>
                         </li>
                       </ul>
@@ -495,19 +504,19 @@ export const Navbar: React.FC = () => {
                         <li>
                           <button onClick={() => openProductDetail('ht23-smart-projector')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">HT23 Smart Cinema</span>
-                            <span className="text-[10px] text-slate-400">Rs 29,150 (Cost: Rs 26.5k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 29,150 • Motorized Focus</span>
                           </button>
                         </li>
                         <li>
                           <button onClick={() => openProductDetail('hcs350pro-smart-projector')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">HCS350PRO Full HD 1080P</span>
-                            <span className="text-[10px] text-slate-400">Rs 37,950 (Cost: Rs 34.5k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 37,950 • 450 ANSI</span>
                           </button>
                         </li>
                         <li>
                           <button onClick={() => openProductDetail('hm103-a-smart-projector')} className="hover:text-cyan-300 transition-colors text-left">
                             <span className="font-bold text-white block">HM103-A Amlogic 500 ANSI</span>
-                            <span className="text-[10px] text-slate-400">Rs 42,900 (Cost: Rs 39k)</span>
+                            <span className="text-[10px] text-emerald-400 font-mono">Rs 42,900 • Auto Keystone</span>
                           </button>
                         </li>
                       </ul>
@@ -1303,6 +1312,17 @@ export const Navbar: React.FC = () => {
                   </div>
                 )}
               </div>
+              {/* Services & Business Solutions Tab */}
+              <div>
+                <button
+                  onClick={() => setActiveView('services')}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-[#FF6B6B] hover:text-white hover:bg-slate-900/60 transition-all"
+                >
+                  <Briefcase className="w-4 h-4 text-[#FF6B6B]" />
+                  <span>Services</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FF6B6B]/20 text-[#FF6B6B] font-mono">B2B</span>
+                </button>
+              </div>
             </div>
 
             {/* Quick Flash Deal indicator */}
@@ -1331,9 +1351,9 @@ export const Navbar: React.FC = () => {
               <Tv className="w-4 h-4 text-cyan-400 mb-1" />
               <div className="text-xs font-bold text-white flex items-center justify-between">
                 <span>Projectors</span>
-                <span className="text-[9px] bg-emerald-500 text-slate-950 px-1 py-0.2 rounded font-extrabold">10% Margin</span>
+                <span className="text-[9px] bg-cyan-900/80 text-cyan-300 px-1 py-0.2 rounded font-extrabold border border-cyan-700/50">Smart Cinema</span>
               </div>
-              <div className="text-[10px] text-cyan-300">8 Smart Cinema Models</div>
+              <div className="text-[10px] text-cyan-300">8 Cinema Models</div>
             </button>
             <button
               onClick={() => {
@@ -1404,6 +1424,18 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="flex flex-col gap-1 pt-2">
+            <button
+              onClick={() => {
+                setActiveView('services');
+                setIsMobileMenuOpen(false);
+              }}
+              className="px-3 py-2 text-left text-xs font-bold uppercase text-[#FF6B6B] bg-[#232131] border border-[#FF6B6B]/40 rounded-xl flex items-center justify-between"
+            >
+              <span className="flex items-center gap-2">
+                <Briefcase className="w-4 h-4 text-[#FF6B6B]" /> Services & Turnkey Solutions
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#FF6B6B]/20 text-[#FF6B6B]">B2B</span>
+            </button>
             <button
               onClick={() => {
                 setActiveView('node-studio');

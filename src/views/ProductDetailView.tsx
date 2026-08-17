@@ -256,28 +256,8 @@ export const ProductDetailView: React.FC = () => {
                         {formatPrice(originalPrice)}
                       </span>
                     )}
-                    {currentCostPKR && (
-                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-mono font-bold">
-                        10% Profit Margin Included
-                      </span>
-                    )}
                   </div>
-                  {currentCostPKR ? (
-                    <div className="mt-2 p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs font-mono grid grid-cols-3 gap-2 text-center">
-                      <div>
-                        <span className="text-[10px] text-slate-500 block uppercase">Cost Price</span>
-                        <span className="text-slate-300 font-bold">₨ {currentCostPKR.toLocaleString()}</span>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-500 block uppercase">10% Profit</span>
-                        <span className="text-cyan-400 font-bold">+₨ {currentProfitPKR?.toLocaleString()}</span>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-500 block uppercase">Selling Price</span>
-                        <span className="text-emerald-400 font-bold">₨ {currentPricePKR?.toLocaleString()}</span>
-                      </div>
-                    </div>
-                  ) : originalPrice > currentPrice ? (
+                  {originalPrice > currentPrice && !currentPricePKR ? (
                     <span className="text-xs font-bold text-emerald-400 mt-1 block">
                       You save {formatPrice(originalPrice - currentPrice)} (Instant Discount)
                     </span>
@@ -291,20 +271,12 @@ export const ProductDetailView: React.FC = () => {
                 </div>
               </div>
 
-              {product.sourceUrl && (
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Verified Sourcing Reference:</span>
-                  <a
-                    href={product.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 hover:underline"
-                  >
-                    <span>zerobyte.store product page</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              )}
+              <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                <span className="text-slate-400">PlayBeat Digital Official:</span>
+                <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                  <span>playbeat.digital Verified 100% Genuine</span>
+                </span>
+              </div>
             </div>
 
             {/* Product Variants Selector (Dropdown + Grid) */}

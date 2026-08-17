@@ -20,7 +20,7 @@ export const WPAdminLoginView: React.FC = () => {
   const { setCurrentUser, setActiveView, showToast, refreshData } = useApp();
 
   const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('playbeat123');
+  const [password, setPassword] = useState('playbeat1122');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,14 +47,15 @@ export const WPAdminLoginView: React.FC = () => {
 
       if (res.ok && data.success) {
         setCurrentUser(data.user);
+        sessionStorage.setItem('pb_admin_auth', 'playbeat1122');
         setSuccessMsg('Verification confirmed. Loading PlayBeat Admin Dashboard...');
-        showToast('Authenticated as Super Admin (playbeat123) ⚡', 'success');
+        showToast('Authenticated as Super Admin (playbeat1122) ⚡', 'success');
         await refreshData();
         setTimeout(() => {
           setActiveView('admin');
         }, 600);
       } else {
-        setErrorMsg(data.message || 'Invalid username or password. (Hint: admin / playbeat123)');
+        setErrorMsg(data.message || 'Invalid username or password. (Hint: admin / playbeat1122)');
         showToast('Login failed', 'error');
       }
     } catch {
@@ -66,7 +67,7 @@ export const WPAdminLoginView: React.FC = () => {
 
   const handleQuickAdminLogin = () => {
     setUsername('admin');
-    setPassword('playbeat123');
+    setPassword('playbeat1122');
     setTimeout(() => {
       handleLogin();
     }, 100);
@@ -82,7 +83,7 @@ export const WPAdminLoginView: React.FC = () => {
       <div className="mb-6 flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-mono backdrop-blur-md shadow-lg">
         <Globe className="w-3.5 h-3.5 text-cyan-400" />
         <span className="text-slate-400">Target Gateway:</span>
-        <span className="text-cyan-300 font-bold">http://playbeat.digital/wp-admin</span>
+        <span className="text-cyan-300 font-bold">http://playbeat.digital/adminpanel</span>
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-1" />
       </div>
 
@@ -101,7 +102,7 @@ export const WPAdminLoginView: React.FC = () => {
             <span className="text-cyan-400">ADMIN</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            WordPress & Digital Keys Administration Gateway
+            Admin Panel & Digital Keys Administration Gateway
           </p>
         </div>
 
@@ -121,7 +122,7 @@ export const WPAdminLoginView: React.FC = () => {
               User: <span className="text-white font-semibold">admin</span>
             </div>
             <div>
-              Pass: <span className="text-cyan-300 font-semibold">playbeat123</span>
+              Pass: <span className="text-cyan-300 font-semibold">playbeat1122</span>
             </div>
           </div>
         </div>
